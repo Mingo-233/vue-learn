@@ -82,7 +82,6 @@ export const nextTick = (function () {
     const copies = callbacks.slice(0)
     // 清空callbacks数组
     callbacks.length = 0
-    console.log('aaaaaaaaa')
     /* 执行所有callback*/
     for (let i = 0; i < copies.length; i++) {
       copies[i]()

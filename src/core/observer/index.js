@@ -40,7 +40,7 @@ export class Observer {
     将Observer实例绑定到data的__ob__属性上面去，observe的时候会先检测是否已经有__ob__对象存放Observer实例了
     */
   constructor (value: any) {
-    console.log(value)
+    // 要被观察的值
     this.value = value
     this.dep = new Dep()
     this.vmCount = 0
@@ -116,14 +116,15 @@ function copyAugment (target: Object, src: Object, keys: Array<string>) {
  * returns the new observer if successfully observed,
  * or the existing observer if the value already has one.
  */
+// 这个函数就是创建ob对象，若原先就存在则返回原先的ob对象
 export function observe (value: any, asRootData: ?boolean): Observer | void {
+   // 如果设置的参数value不是一个对象或者是一个虚拟dom。则直接返回。
   if (!isObject(value) || value instanceof VNode) {
     return
   }
   let ob: Observer | void
   /* 这里用__ob__这个属性来判断是否已经有Observer实例，如果没有Observer实例则会新建一个Observer实例并赋值给__ob__这个属性，
   如果已有Observer实例则直接返回该Observer实例。 （单例模式）*/
-
   if (hasOwn(value, '__ob__') && value.__ob__ instanceof Observer) {
     ob = value.__ob__
   } else if (

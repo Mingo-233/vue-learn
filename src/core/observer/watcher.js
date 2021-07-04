@@ -97,6 +97,12 @@ export default class Watcher {
     const vm = this.vm
     try {
       value = this.getter.call(vm, vm)
+     /* 调用getter实际是调用updateComponent，由于updateComponent会调用options.render，所以会触发vm._render函数,而vm._render函数中的核心则是
+      vnode = render.call(vm, vm.$createElement)，此时render函数中有时候会取读取vm.a的值。有时会取读取vm.b的值。
+      当读取vm.a或者b的时候，就会触发对应属性的getter，然后会将当前的Watcher加入属性对应的dep中。defineReactive中的dep收集的就是当前watcher了。
+      当用户点击页面的a+1按钮时，则会触发this.a += 1。则会触发defineReactive(obj, a, {get,set})中的set，
+       set中会调用dep.notify。其实就是让dep收集到的watcher挨个执行下述中的run方法.
+      而run方法又触发了当前的这个get方法，执行到getter.call的时候，界面就更新了。 */
     } catch (e) {
       if (this.user) {
         handleError(e, vm, `getter for watcher "${this.expression}"`)
@@ -121,9 +127,11 @@ export default class Watcher {
   addDep (dep: Dep) {
     const id = dep.id
     if (!this.newDepIds.has(id)) {
+      // newDep是新的依赖收集对象，在同一次tick中防止重复收集。并且每次结束后会清空newDep
       this.newDepIds.add(id)
       this.newDeps.push(dep)
       if (!this.depIds.has(id)) {
+        // 则将当前的watcher加入到可观察对象中,this指watcher
         dep.addSub(this)
       }
     }

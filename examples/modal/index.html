@@ -55,10 +55,9 @@
         -->
       <h3 slot="header">custom header</h3>
     </modal>
-    {{arr}}<button @click="handle">++</button>
+    <button @click="handle">++</button>
+    {{total}}
     <hr>
-    <input type="text" v-model="msg">
-    <button @click="num++">num++</button>
   </div>
 
   <script>
@@ -72,36 +71,20 @@
       el: '#app',
       data: {
         showModal: false,
-        arr: [2, 4, 6, 9],
-        num: 0,
-        msg: 1
+        a: 2,
+        b: 3
 
       },
-      mounted () {
-        this.msg = 'end'
-
-        this.$nextTick(function () {
-          console.log('nexttick zhixingle')
-          this.msg = 'jk'
-        })
-        // const channel = new MessageChannel()
-        // channel.port1.postMessage('hello')
-        // channel.port2.onmessage = function (e) {
-        //   console.log(e)
-        // }
-      }, methods: {
-        handle () {
-          this.arr.push(0)
-          // this.arr.pop()
-          console.log(this.arr)
+      computed: {
+        total () {
+          return this.a + this.b
         }
       },
-      watch: {
-        msg: {
-          handler (newName, oldName) {
+      mounted () {
 
-          },
-          immediate: true
+      }, methods: {
+        handle () {
+          this.a++
         }
       }
     })

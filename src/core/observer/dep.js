@@ -6,8 +6,8 @@ import { remove } from '../util/index'
 let uid = 0
 
 /**
- * A dep is an observable that can have multiple
- * directives subscribing to it.
+ * A dep is an observable that can have multiple directives subscribing to it.
+ * dep是一个可观察的对象，可以有多个指令订阅它。
  */
 export default class Dep {
   static target: ?Watcher;
@@ -28,6 +28,7 @@ export default class Dep {
   }
   /* 依赖收集，当存在Dep.target的时候添加观察者对象*/
   depend () {
+    console.log(Dep.target)
     if (Dep.target) {
       Dep.target.addDep(this)
     }
