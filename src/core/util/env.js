@@ -139,6 +139,7 @@ export const nextTick = (function () {
     callbacks.push(() => {
       if (cb) {
         try {
+          console.log(cb)
           console.log('这边执行了next的回调')
           cb.call(ctx)
         } catch (e) {
