@@ -175,6 +175,7 @@ export function defineReactive (
     configurable: true,
     get: function reactiveGetter () {
        /* 如果原本对象拥有getter方法,则覆盖*/
+      console.log('进了getter')
       const value = getter ? getter.call(obj) : val
       if (Dep.target) {
          /* 进行依赖收集*/

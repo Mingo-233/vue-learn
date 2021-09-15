@@ -54,8 +54,11 @@
           default content
         -->
       <h3 slot="header">custom header</h3>
+
     </modal>
     <button @click="handle">++</button>
+
+    <h1>{{person}}</h1>
     <hr>
   </div>
 
@@ -71,7 +74,10 @@
       data: {
         showModal: false,
         a: 2,
-        b: 3
+        b: 3,
+        person: {
+          arr: [1, 2]
+        }
 
       },
       computed: {
@@ -83,7 +89,10 @@
 
       }, methods: {
         handle () {
-          this.a++
+          const { arr } = this.person
+          console.log(arr)
+          arr.splice(1, 1)
+          console.log(this.person)
         }
       }
     })
