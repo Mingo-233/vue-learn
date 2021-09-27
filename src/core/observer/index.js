@@ -252,11 +252,14 @@ export function set (target: Array<any> | Object, key: any, val: any): any {
  * Delete a property and trigger change if necessary.
  */
 export function del (target: Array<any> | Object, key: any) {
+  // 如果target传入的值是一个数组，并且存在数组的索引，那么就把数组中对应的索引元素删除。
   if (Array.isArray(target) && isValidArrayIndex(key)) {
     target.splice(key, 1)
     return
   }
+  // 获取到traget的__ob__属性，该属性是否为true标志着target是否为响应式对象，
   const ob = (target: any).__ob__
+  // 接着判断如果tragte是 Vue 实例，或者是 Vue 实例的根数据对象，则抛出警告并退出程序。
   if (target._isVue || (ob && ob.vmCount)) {
     process.env.NODE_ENV !== 'production' && warn(
       'Avoid deleting properties on a Vue instance or its root $data ' +
@@ -264,16 +267,18 @@ export function del (target: Array<any> | Object, key: any) {
     )
     return
   }
+  // 接着判断传入的key是否存在于target中，如果key本来就不存在于target中，那就不用删除，直接退出
   if (!hasOwn(target, key)) {
     return
   }
+  // 最后，如果target是对象，并且传入的key也存在于target中，那么就从target中将该属性删除，
   delete target[key]
+  // 同时判断当前的target是否为响应式对象，如果是响应式对象，则通知依赖更新；如果不是，删除完后直接返回不通知更新
   if (!ob) {
     return
   }
   ob.dep.notify()
 }
-
 /**
  * Collect dependencies on array elements when the array is touched, since
  * we cannot intercept array element access like property getters.
