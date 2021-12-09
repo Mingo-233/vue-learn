@@ -87,6 +87,7 @@ export default {
       // check pattern
       const name: ?string = getComponentName(componentOptions)
       if (name && (
+        // not included
         (this.include && !matches(this.include, name)) ||
         (this.exclude && matches(this.exclude, name))
       )) {
@@ -102,6 +103,7 @@ export default {
       if (cache[key]) {
         vnode.componentInstance = cache[key].componentInstance
         // make current key freshest
+        // 更新key的位置是实现LRU置换策略的关键
         remove(keys, key)
         keys.push(key)
       } else {
