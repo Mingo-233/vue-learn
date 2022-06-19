@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Vue.js modal component example</title>
+    <!-- Delete ".min" for console warnings in development -->
+    <!-- <script src="../../dist/vue.min.js"></script> -->
+    <script src="../../dist/vue.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<head>
-  <meta charset="utf-8">
-  <title>Vue.js modal component example</title>
-  <!-- Delete ".min" for console warnings in development -->
-  <!-- <script src="../../dist/vue.min.js"></script> -->
-  <script src="../../dist/vue.js"></script>
-  <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-  <!-- template for the modal component -->
-  <script type="text/x-template" id="modal-template">
+  <body>
+    <!-- template for the modal component -->
+    <script type="text/x-template" id="modal-template">
       <transition name="modal">
         <div class="modal-mask">
           <div class="modal-wrapper">
@@ -44,60 +43,67 @@
       </transition>
     </script>
 
-  <!-- app -->
-  <div id="app">
-    <button id="show-modal" @click="showModal = true">Show Modal</button>
-    <!-- use the modal component, pass in the prop -->
-    <modal v-if="showModal" @close="showModal = false">
-      <!--
+    <!-- app -->
+    <div id="app">
+      <button id="show-modal" @click="showModal = true">Show Modal</button>
+      <!-- use the modal component, pass in the prop -->
+      <modal v-if="showModal" @close="showModal = false">
+        <!--
           you can use custom content here to overwrite
           default content
         -->
-      <h3 slot="header">custom header</h3>
+        <h3 slot="header">custom header</h3>
+      </modal>
+      <button @click="handle">++</button>
+      <p>b-value : {{b}}</p>
+      <p>total : {{total}}</p>
+      <p>total : {{num}}</p>
+      <button @click="handle2">变量c 变化</button>
+      <p>varC : {{varC}}</p>
 
-    </modal>
-    <button @click="handle">++</button>
+      <hr />
+    </div>
 
-    <h1>{{person}}</h1>
-    <hr>
-  </div>
+    <script>
+      // register modal component
+      Vue.component("modal", {
+        template: "#modal-template",
+      });
 
-  <script>
-    // register modal component
-    Vue.component('modal', {
-      template: '#modal-template'
-    })
-
-    // start app
-    new Vue({
-      el: '#app',
-      data: {
-        showModal: false,
-        a: 2,
-        b: 3,
-        person: {
-          arr: [1, 2]
-        }
-
-      },
-      computed: {
-        total () {
-          return this.a + this.b
-        }
-      },
-      mounted () {
-
-      },
-      methods: {
-        handle () {
-          const { arr } = this.person
-          console.log(arr)
-          arr.splice(1, 1)
-          console.log(this.person)
-        }
-      }
-    })
-  </script>
-</body>
-
+      // start app
+      new Vue({
+        el: "#app",
+        data: {
+          showModal: false,
+          a: 2,
+          b: 3,
+          num: 0,
+          varC: "varCvarCvarCvarCvarCvarC",
+        },
+        computed: {
+          total() {
+            // 其实vue并不知道哪些变量会影响到计算属性的输出的
+            // 只是第一次初始化的过程中，将用到的所有变量都会进行依赖收集，后续只要有一个发生变化，就会通知计算属性重新计算
+            // 即使这只是一句console log
+            console.log(this.varC);
+            console.warn("计算属性执行了");
+            this.num++;
+            if (this.num < 3) {
+              return this.a + this.b;
+            } else {
+              return "chaoguole";
+            }
+          },
+        },
+        methods: {
+          handle() {
+            this.b++;
+          },
+          handle2() {
+            this.varC += "varC";
+          },
+        },
+      });
+    </script>
+  </body>
 </html>
