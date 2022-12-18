@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Vue.js modal component example</title>
+    <!-- Delete ".min" for console warnings in development -->
+    <!-- <script src="../../dist/vue.min.js"></script> -->
+    <script src="../../dist/vue.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <!-- app -->
+    <div id="app">
+      <p v-if="spinning" :onload="load1" @click="handle">hhhh</p>
+      <!-- load2() 这样写在_render 生成新的vnode的时候会立即执行这个函数 所以被执行了  -->
+      <p :onload="load2">hhhh</p>
+      <p ">hhhh</p>
+
+            <img
+        src="	https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/e08da34488b114bd4c665ba2fa520a31.svg"
+        alt=""
+     :onload="load3"
+      />
+    </div>
+
+    <script>
+      // start app
+      new Vue({
+        el: "#app",
+        data: {
+          spinning: true,
+        },
+        methods: {
+          handle() {
+            this.spinning = false;
+          },
+          load1() {
+            console.log("loading1");
+          },
+          load2() {
+            debugger;
+            console.log("loading2");
+          },
+          load3() {
+            console.log("loading3");
+          },
+        },
+        mounted() {
+          // setTimeout(() => {
+          //   this.handle();
+          // }, 2000);
+        },
+      });
+    </script>
+  </body>
+</html>
