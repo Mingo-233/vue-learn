@@ -11,17 +11,22 @@
 
   <body>
     <!-- app -->
-    <div id="app">
-      <p v-if="spinning" :onload="load1" @click="handle">hhhh</p>
+    <div id="app" @click="handle">
       <!-- load2() 这样写在_render 生成新的vnode的时候会立即执行这个函数 所以被执行了  -->
-      <p :onload="load2">hhhh</p>
-      <p ">hhhh</p>
 
-            <img
-        src="	https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/e08da34488b114bd4c665ba2fa520a31.svg"
+      <p v-if="spinning">diyiceng</p>
+
+      <iframe
+        src="https://dev1.baoxiaohe.fun"
+        frameborder="0"
+        @load="load3"
+      ></iframe>
+      <!-- <img
+        src="https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/e08da34488b114bd4c665ba2fa520a31.svg"
         alt=""
-     :onload="load3"
-      />
+        @load="load3"
+      /> -->
+      <div v-if="!spinning">dierceng</div>
     </div>
 
     <script>
@@ -43,7 +48,7 @@
             console.log("loading2");
           },
           load3() {
-            console.log("loading3");
+            console.error("loading3");
           },
         },
         mounted() {

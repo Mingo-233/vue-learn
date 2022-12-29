@@ -511,7 +511,8 @@ export function createPatchFunction(backend) {
   }
 
   function patchVnode(oldVnode, vnode, insertedVnodeQueue, removeOnly) {
-    console.log("patchVnode", vnode);
+    console.log("oldVnode", oldVnode);
+    console.log("vnode", vnode);
     if (oldVnode === vnode) {
       return;
     }
@@ -716,6 +717,8 @@ export function createPatchFunction(backend) {
       return;
     }
 
+    console.log("patch - oldVnode", oldVnode);
+    console.log("patch - vnode", vnode);
     let isInitialPatch = false;
     const insertedVnodeQueue = [];
 
